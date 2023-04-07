@@ -3,25 +3,31 @@ using sampleworkerservice.Models;
 
 namespace sampleworkerservice
 {
-    public class UserEqualizerService:IHostedService,IUserService
+    public class UserEqualizerService:IHostedService,IUserService,IServiceProvider
     {
         private readonly ILogger<UserEqualizerService> _logger;
        // private readonly PlaceHolderClient _client;
         private readonly UserDbContext _context;
-        
+        private IServiceProvider _sp;
            
 
-        public UserEqualizerService(ILogger<UserEqualizerService> logger, UserDbContext context)
+        public UserEqualizerService(ILogger<UserEqualizerService> logger, IServiceProvider sp)
         {
             
             _logger = logger;
-           // _client = client;
-            _context = context;
+            // _client = client;
+            _sp = sp;
+           // _context = context;
+           _context=sp.CreateScope().ServiceProvider.GetRequiredService<UserDbContext>();
         }
 
         public List<User> ExecuteService()
         {
-           
+          //  using (var scope = _sp.CreateScope())
+            //{
+               // var ct = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+
+
                 _logger.LogInformation("Starting process");
 
                 var result = _context.Users.ToList();
@@ -31,20 +37,31 @@ namespace sampleworkerservice
                 _logger.LogInformation("Ending process");
 
                 return result;
-            
+
+            //}
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            
+            _logger.LogInformation("Ending process");
+            return Task.CompletedTask;
+            
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
+
+            _logger.LogInformation("Ending process");
+            return null;
+
+        }
+        public object? GetService(Type serviceType)
+        {
             throw new NotImplementedException();
         }
 
-       
 
 
         //public virtual async Task<bool> EqualizeUsers(List<User> phUsers)
@@ -106,4 +123,6 @@ namespace sampleworkerservice
         //    }
         //}
     }
-}
+
+       
+    }

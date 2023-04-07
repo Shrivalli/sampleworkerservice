@@ -5,7 +5,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddScoped<UserDbContext>();
-        services.AddDbContext<UserDbContext>();
+       services.AddDbContext<UserDbContext>();
 
         services.AddScoped<IUserService, UserEqualizerService>();
         services.AddHostedService<UserEqualizerService>();

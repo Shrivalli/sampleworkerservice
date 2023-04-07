@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace sampleworkerservice
 {
-    public class Worker : BackgroundService
+    public class WorkerService : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<WorkerService> _logger;
         private readonly UserEqualizerService _userService;
         private readonly IServiceCollection _ser;
         private string resultMessage;
         private readonly IServiceProvider scopeFactory;
-        public Worker(ILogger<Worker> logger, IServiceCollection ser,IServiceProvider ScopeFactory,UserEqualizerService userService)
+        public WorkerService(ILogger<WorkerService> logger, IServiceCollection ser,IServiceProvider ScopeFactory,UserEqualizerService userService)
         {
             _logger = logger;
             _userService = userService;
